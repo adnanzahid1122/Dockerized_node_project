@@ -1,0 +1,42 @@
+version: '3'
+services:
+#  reverse-proxy:
+#    image: nginx:latest
+#    ports:
+#      - "8080:80"
+#    volumes:
+#      - ./nginx/reverse-proxy.conf:/etc/nginx/conf.d/default.conf
+#    depends_on:
+#      - nodejs
+#      - mongodb
+  nodejs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+#    volumes:
+ #     - .:/usr/src/app
+    ports:
+      - "80:80"
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - mongodb  # Add this line to specify dependency on MongoDB service
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db  # Persist data outside the container
+
+ # nginx:
+  #  image: nginx:latest
+   # ports:
+    #  - "80:80"
+    #volumes:
+    #  - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+volumes:
+  mongodb_data:  # Declare a volume for MongoDB data persistence
+
